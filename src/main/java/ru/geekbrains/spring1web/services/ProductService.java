@@ -20,9 +20,14 @@ public class ProductService {
     public List<Product> findAll(){
         return productRepository.findAll();
     }
-    public Product findById(Long id){
-        return productRepository.getProductById(id);
+
+    public void deleteProduct(Long id) {
+        productRepository.deleteProduct(id);
     }
 
+    public void changePrice(Long id, Integer delta) {
+        Product p = productRepository.findById(id);
+        p.setPrice(p.getPrice() + delta);
+    }
 }
 

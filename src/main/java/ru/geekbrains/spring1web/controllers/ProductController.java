@@ -1,14 +1,17 @@
 package ru.geekbrains.spring1web.controllers;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import ru.geekbrains.spring1web.entities.Product;
 import ru.geekbrains.spring1web.services.ProductService;
 
-@Controller
+import java.util.List;
+
+@RestController
 public class ProductController {
 
     private ProductService productService;
@@ -20,16 +23,19 @@ public class ProductController {
 
 
     @GetMapping("/products")
-    public String showStudentsPage(Model model) {
-        model.addAttribute("products", productService.findAll());
-        return "products_page";
+    public List<Product> showStudentsPage() {
+        return productService.findAll();
     }
 
-    @GetMapping("/products/{id}")
-    public String showStudentPage(Model model, @PathVariable Long id) {
-        Product product = productService.findById(id);
-        model.addAttribute("product", product);
-        return "product_info_page";
+    @GetMapping("/products/delete/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
     }
+
+    @GetMapping("/products/change_price")
+    public void changePrice(@RequestParam Long id, @RequestParam Integer delta) {
+        productService.changePrice(id, delta);
+    }
+
 }
 

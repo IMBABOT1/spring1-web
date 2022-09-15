@@ -32,12 +32,16 @@ public class ProductRepository {
         return Collections.unmodifiableList(products);
     }
 
-    public Product getProductById(Long id) {
-        for (Product p : products) {
-            if (p.getId() == id) {
+    public void deleteProduct(Long id) {
+        products.removeIf(p -> p.getId().equals(id));
+    }
+
+    public Product findById(Long id){
+        for (Product p : products){
+            if (p.getId() == id){
                 return p;
             }
         }
-        throw new RuntimeException("Product with id: " + id + " not found");
+        throw new RuntimeException("Product with id:" + id + " doesn't exists");
     }
 }
