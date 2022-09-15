@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Repository
-public class ProductRepository {
+public class InMemoryProductRepository implements ProductDao {
 
     private List<Product> products;
 
@@ -28,14 +28,17 @@ public class ProductRepository {
         products.add(new Product(10l, "World of Warcraft: Wrath of the Lich King", 10));
     }
 
+    @Override
     public List<Product> findAll() {
         return Collections.unmodifiableList(products);
     }
 
+    @Override
     public void deleteProduct(Long id) {
         products.removeIf(p -> p.getId().equals(id));
     }
 
+    @Override
     public Product findById(Long id){
         for (Product p : products){
             if (p.getId() == id){
@@ -43,5 +46,10 @@ public class ProductRepository {
             }
         }
         throw new RuntimeException("Product with id:" + id + " doesn't exists");
+    }
+
+    @Override
+    public void save(Product p) {
+        throw new UnsupportedOperationException();
     }
 }
